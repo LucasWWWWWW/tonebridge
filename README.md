@@ -35,7 +35,7 @@ Tonebridge 把这件事收成一个简单动作：输入一句话、选好「关
 
 ## 在线体验
 
-👉 `https://your-deployment.vercel.app` （部署后替换为你的实际地址）
+👉 **[tonebridge-ecru.vercel.app](https://tonebridge-ecru.vercel.app)** —— 打开即用，无需登录
 
 ## 截图
 
