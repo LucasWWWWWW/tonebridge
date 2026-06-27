@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+/*
+  Tonebridge — “地道语气翻译”
+  审美方向：温暖信笺 / editorial-paper。陶土红主调 + 桥梁青副色，
+  衬线中文字承担“手写校对”的情感，避免冷感 SaaS 与紫渐变 AI slop。
+*/
+
+:root {
+  /* paper & ink */
+  --paper: #f7f1e8;
+  --paper-raised: #fffaf2;
+  --paper-sunken: #efe6d7;
+  --ink: #2b2622;
+  --ink-soft: #6a6056;
+  --ink-faint: #978a7b;
+  --line: #e3d8c6;
+  --line-strong: #d4c5ad;
+
+  /* accents */
+  --clay: #c4603f; /* 主强调 — 陶土红 */
+  --clay-deep: #a64c30;
+  --clay-wash: #f4e3da;
+  --teal: #2f6f6a; /* 桥梁青 — 回译/确认 */
+  --teal-deep: #245752;
+  --teal-wash: #e0ece9;
+  --gold: #b8893a; /* 语气提示 */
+
+  --danger: #b23b2e;
+  --danger-wash: #f6e2de;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+
+  --shadow-soft: 0 1px 2px rgba(43, 38, 34, 0.05),
+    0 8px 24px -12px rgba(43, 38, 34, 0.18);
+  --shadow-raised: 0 2px 4px rgba(43, 38, 34, 0.06),
+    0 18px 40px -20px rgba(43, 38, 34, 0.28);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1714;
+    --paper-raised: #221e1a;
+    --paper-sunken: #14110e;
+    --ink: #ede4d6;
+    --ink-soft: #b3a795;
+    --ink-faint: #847a6c;
+    --line: #322c25;
+    --line-strong: #423a31;
+
+    --clay: #e08a64;
+    --clay-deep: #c4603f;
+    --clay-wash: #2e211b;
+    --teal: #6fb8b0;
+    --teal-deep: #4f9690;
+    --teal-wash: #16221f;
+    --gold: #d4a45a;
+
+    --danger: #e08070;
+    --danger-wash: #2c1a16;
+
+    --background: var(--paper);
+    --foreground: var(--ink);
+
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3),
+      0 10px 28px -14px rgba(0, 0, 0, 0.6);
+    --shadow-raised: 0 2px 6px rgba(0, 0, 0, 0.35),
+      0 22px 48px -20px rgba(0, 0, 0, 0.7);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunken: var(--paper-sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-clay: var(--clay);
+  --color-clay-deep: var(--clay-deep);
+  --color-clay-wash: var(--clay-wash);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-teal-wash: var(--teal-wash);
+  --color-gold: var(--gold);
+  --color-danger: var(--danger);
+  --color-danger-wash: var(--danger-wash);
+
+  --font-sans: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif-sc), "Songti SC", serif;
+
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* 信纸纹理：极淡的网格 + 顶部桥梁光晕 */
+  background-image: radial-gradient(
+      120% 70% at 50% -10%,
+      color-mix(in srgb, var(--clay) 9%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      90% 60% at 95% 0%,
+      color-mix(in srgb, var(--teal) 7%, transparent) 0%,
+      transparent 50%
+    );
+  background-attachment: fixed;
+}
+
+/* 选区配色随主题 */
+::selection {
+  background: color-mix(in srgb, var(--clay) 28%, transparent);
+  color: var(--ink);
+}
+
+/* 自定义滚动条（克制） */
+textarea {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+/* ---- 动效 ---- */
+@keyframes tb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tb-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tb-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  60% {
+    transform: scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tb-shimmer {
+  0% {
+    background-position: -160% 0;
+  }
+  100% {
+    background-position: 160% 0;
+  }
+}
+
+@keyframes tb-bridge {
+  0%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dashoffset: -12;
+  }
+}
+
+.tb-rise {
+  animation: tb-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.tb-fade {
+  animation: tb-fade 0.4s ease both;
+}
+.tb-pop {
+  animation: tb-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tb-skeleton {
+  background: linear-gradient(
+    100deg,
+    var(--paper-sunken) 30%,
+    color-mix(in srgb, var(--paper-raised) 70%, var(--line)) 50%,
+    var(--paper-sunken) 70%
+  );
+  background-size: 220% 100%;
+  animation: tb-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-rise,
+  .tb-fade,
+  .tb-pop,
+  .tb-skeleton {
+    animation: none;
+  }
+}
+
+/* 焦点环统一为陶土色，触控友好 */
+.tb-focus:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 2px;
+}
