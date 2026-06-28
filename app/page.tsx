@@ -21,6 +21,8 @@ const INITIAL_FORM: FormState = {
   emotion: "温柔",
   formality: "neutral",
   relationship: "",
+  speakerGender: "",
+  counterpartGender: "",
 };
 
 interface ApiError {
@@ -73,6 +75,8 @@ export default function Home() {
       ...(form.relationship.trim()
         ? { relationship: form.relationship.trim() }
         : {}),
+      ...(form.speakerGender ? { speakerGender: form.speakerGender } : {}),
+      ...(form.counterpartGender ? { counterpartGender: form.counterpartGender } : {}),
       ...(presetId ? { presetId } : {}),
     };
 

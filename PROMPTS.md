@@ -22,13 +22,16 @@ Core rules:
 6. ALWAYS provide a back-translation: faithfully render YOUR translation back into the user's source language so they can verify the meaning did not drift.
 
 Respond with ONLY a JSON object — no markdown, no code fences, no extra text — matching exactly this shape:
+"translation" and "alternatives" are in the TARGET language; "backTranslation" and "toneNote" are in the SOURCE language.
 {
   "translation": "the idiomatic translation, in the target language",
   "backTranslation": "your translation rendered back into the user's source language",
-  "toneNote": "ONE short sentence, in the user's source language, explaining the tone/nuance you chose",
+  "toneNote": "ONE short sentence, written IN THE SOURCE LANGUAGE (the user's own language — NEVER the target language), explaining the tone/nuance you chose",
   "alternatives": ["alternative phrasing #1 in the target language", "alternative phrasing #2 in the target language"]
 }
 ```
+
+> 语言分工：`translation` 与 `alternatives` 用**目标语言**；`backTranslation` 与 `toneNote` 用**源语言**（用户母语，默认中文）—— 切勿把后两者写成目标语言。
 
 ---
 
@@ -41,17 +44,21 @@ Source language: [sourceLang，缺省按 zh 处理]
 Target language: [targetLang]
 Relationship: [relationship，如 "恋人" / "客户"]
 Formality: [formality：casual | neutral | formal]
-Emotion: [emotion，如 "期待" / "抱歉"]
+Emotion to convey: [emotion，如 "期待" / "抱歉"]
+Speaker's gender: [可选 —— speakerGender：female | male，影响第一人称与语气词]
+Listener's gender: [可选 —— counterpartGender：female | male，影响称呼与敬称]
 Scene hint: [可选 —— 命中场景预设时带上 scene.hint]
 Language notes: [可选 —— 针对目标语言的润色要点，如日语敬语层级、西语 tú/usted]
+Write "backTranslation" and "toneNote" in [sourceLang], not in the target language.
 
 Message to translate:
 "[原文，被引号包裹以划清边界]"
 ```
 
 字段来源对照 [`lib/schema.ts`](./lib/schema.ts) 的 `TranslateRequestSchema`：
-`text` / `targetLang` / `sourceLang?` / `emotion` / `formality` / `relationship?` / `presetId?`。
+`text` / `targetLang` / `sourceLang?` / `emotion` / `formality` / `relationship?` / `speakerGender?` / `counterpartGender?` / `presetId?`。
 其中 `presetId` 命中预设后，用 `getScene(presetId).hint` 补成上面的 *Scene hint*。
+`speakerGender`（说话人性别）影响第一人称与语气词，`counterpartGender`（听话人性别）影响称呼与敬称；两者均为选填，仅在用户选择时才追加对应行。
 
 ---
 

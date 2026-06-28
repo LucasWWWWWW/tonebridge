@@ -15,10 +15,11 @@ Core rules:
 6. ALWAYS provide a back-translation: faithfully render YOUR translation back into the user's source language so they can verify the meaning did not drift.
 
 Respond with ONLY a JSON object — no markdown, no code fences, no extra text — matching exactly this shape:
+"translation" and "alternatives" are in the TARGET language; "backTranslation" and "toneNote" are in the SOURCE language.
 {
   "translation": "the idiomatic translation, in the target language",
   "backTranslation": "your translation rendered back into the user's source language",
-  "toneNote": "ONE short sentence, in the user's source language, explaining the tone/nuance you chose",
+  "toneNote": "ONE short sentence, written IN THE SOURCE LANGUAGE (the user's own language — NEVER the target language), explaining the tone/nuance you chose",
   "alternatives": ["alternative phrasing #1 in the target language", "alternative phrasing #2 in the target language"]
 }`;
 
@@ -33,6 +34,13 @@ export function buildMessages(req: TranslateRequest): { system: string; user: st
     `Emotion to convey: ${req.emotion}`,
   ];
 
+  if (req.speakerGender) {
+    lines.push(`Speaker's gender: ${req.speakerGender} — use the first-person pronouns and gendered speech a ${req.speakerGender} speaker would naturally use in the target language (e.g. Japanese 僕/俺 for male, わたし/あたし for female; gendered sentence-final particles where natural).`);
+  }
+  if (req.counterpartGender) {
+    lines.push(`Listener's gender: ${req.counterpartGender} — use forms of address and honorifics appropriate when speaking to a ${req.counterpartGender} person.`);
+  }
+
   const scene = getScene(req.presetId);
   if (scene) {
     lines.push(`Scene context: ${scene.hint}`);
@@ -42,6 +50,8 @@ export function buildMessages(req: TranslateRequest): { system: string; user: st
   if (guidance) {
     lines.push(`Language note: ${guidance}`);
   }
+
+  lines.push(`Write "backTranslation" and "toneNote" in ${sourceLang}, not in the target language.`);
 
   lines.push(`Message to translate:\n"""\n${req.text}\n"""`);
 

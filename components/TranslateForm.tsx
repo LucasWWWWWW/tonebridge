@@ -4,10 +4,12 @@ import { useId } from "react";
 import {
   EMOTIONS,
   FORMALITIES,
+  GENDERS,
   TARGET_LANGS,
   type Formality,
+  type Gender,
 } from "@/lib/schema";
-import { FORMALITY_LABELS, langLabel } from "@/lib/labels";
+import { FORMALITY_LABELS, GENDER_LABELS, langLabel } from "@/lib/labels";
 
 export interface FormState {
   text: string;
@@ -15,6 +17,8 @@ export interface FormState {
   emotion: string;
   formality: Formality;
   relationship: string;
+  speakerGender: Gender | "";
+  counterpartGender: Gender | "";
 }
 
 interface TranslateFormProps {
@@ -207,6 +211,47 @@ export default function TranslateForm({
           />
         </div>
       </div>
+
+      {/* ── 性别（我 / 对方，均选填，影响第一人称与称呼） ── */}
+      <fieldset>
+        <legend className="mb-2.5 text-xs font-medium uppercase tracking-[0.18em] text-ink-faint">
+          性别
+          <span className="ml-1.5 font-normal normal-case tracking-normal text-ink-faint/70">
+            选填
+          </span>
+        </legend>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {([
+            ["speakerGender", "我", value.speakerGender] as const,
+            ["counterpartGender", "对方", value.counterpartGender] as const,
+          ]).map(([field, label, current]) => (
+            <div key={field} className="flex items-center gap-2.5">
+              <span className="shrink-0 text-sm text-ink-soft">{label}</span>
+              <div className="inline-flex flex-1 rounded-full border border-line-strong bg-paper-sunken p-1">
+                {GENDERS.map((g) => {
+                  const active = current === g;
+                  return (
+                    <button
+                      key={g}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => onChange({ [field]: active ? "" : g })}
+                      className={[
+                        "tb-focus flex-1 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-200",
+                        active
+                          ? "bg-paper-raised text-ink shadow-[var(--shadow-soft)]"
+                          : "text-ink-faint hover:text-ink-soft",
+                      ].join(" ")}
+                    >
+                      {GENDER_LABELS[g]}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </fieldset>
 
       {/* ── 主按钮 ── */}
       <button

@@ -10,6 +10,10 @@ export type Emotion = (typeof EMOTIONS)[number];
 export const FORMALITIES = ["casual", "neutral", "formal"] as const;
 export type Formality = (typeof FORMALITIES)[number];
 
+// 性别（用于第一人称/称呼的语气推断；选填）
+export const GENDERS = ["female", "male"] as const;
+export type Gender = (typeof GENDERS)[number];
+
 // 首发目标语言（底层支持任意语言码）
 export const TARGET_LANGS = ["ja", "en", "es"] as const;
 export type TargetLang = (typeof TARGET_LANGS)[number];
@@ -22,6 +26,8 @@ export const TranslateRequestSchema = z.object({
   emotion: z.string().min(1).max(20),
   formality: z.enum(FORMALITIES).default("neutral"),
   relationship: z.string().max(40).optional(),           // 关系，如 "恋人" / "客户"
+  speakerGender: z.enum(GENDERS).optional(),             // 我的性别
+  counterpartGender: z.enum(GENDERS).optional(),         // 对方的性别
   presetId: z.string().max(60).optional(),               // 命中的场景预设 id
 });
 export type TranslateRequest = z.infer<typeof TranslateRequestSchema>;
