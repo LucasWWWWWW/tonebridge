@@ -13,8 +13,12 @@ let cached: Limiters | null | undefined; // undefined=未初始化, null=无 Red
 function getLimiters(): Limiters | null {
   if (cached !== undefined) return cached;
 
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  // 兼容两种注入名：直连 Upstash 用 UPSTASH_REDIS_REST_*；
+  // Vercel Marketplace / KV 集成有时注入 KV_REST_API_*。
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
 
   if (!url || !token) {
     cached = null;
