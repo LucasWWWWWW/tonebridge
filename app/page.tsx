@@ -120,11 +120,11 @@ export default function Home() {
   }, [form, presetId, byok]);
 
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-16 pt-6 sm:px-6 sm:pt-10">
+    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-16 pt-6 sm:px-6 sm:pt-10 lg:max-w-6xl lg:px-8">
       {/* ── 顶栏 ── */}
       <header className="mb-7 flex items-start justify-between gap-3">
         <div>
-          <h1 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+          <h1 className="flex items-center gap-2 font-display text-3xl font-semibold italic tracking-tight text-ink sm:text-4xl">
             <span aria-hidden className="text-clay">
               <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
                 <path
@@ -173,21 +173,23 @@ export default function Home() {
         </button>
       </header>
 
-      {/* ── 输入卡 ── */}
-      <div className="rounded-[1.75rem] border border-line-strong bg-paper/40 p-4 shadow-[var(--shadow-soft)] backdrop-blur-sm sm:p-5">
-        <PresetPicker value={presetId} onChange={handlePreset} />
-        <div className="my-5 h-px bg-line" />
-        <TranslateForm
-          value={form}
-          onChange={patchForm}
-          onSubmit={translate}
-          loading={loading}
-        />
-      </div>
+      {/* ── 主体：小屏单列堆叠；lg 起左右两栏（输入 | 结果） ── */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">
+        {/* ── 输入卡（左栏） ── */}
+        <div className="rounded-[1.75rem] border border-line-strong bg-paper/40 p-4 shadow-[var(--shadow-soft)] backdrop-blur-sm sm:p-5 lg:sticky lg:top-8">
+          <PresetPicker value={presetId} onChange={handlePreset} />
+          <div className="my-5 h-px bg-line" />
+          <TranslateForm
+            value={form}
+            onChange={patchForm}
+            onSubmit={translate}
+            loading={loading}
+          />
+        </div>
 
-      {/* ── 结果区 ── */}
-      <div className="mt-6">
-        {error && (
+        {/* ── 结果区（右栏） ── */}
+        <div>
+          {error && (
           <div
             role="alert"
             className="tb-rise rounded-2xl border border-danger/30 bg-danger-wash p-4"
@@ -233,7 +235,8 @@ export default function Home() {
           <ResultCard result={result} targetLang={resultLang} />
         )}
 
-        {!result && !loading && !error && <EmptyState />}
+          {!result && !loading && !error && <EmptyState />}
+        </div>
       </div>
 
       <ByokSettings

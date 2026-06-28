@@ -2,29 +2,30 @@
 
 /*
   Tonebridge — “地道语气翻译”
-  审美方向：温暖信笺 / editorial-paper。陶土红主调 + 桥梁青副色，
-  衬线中文字承担“手写校对”的情感，避免冷感 SaaS 与紫渐变 AI slop。
+  配色：Ocean 深海青 / Coral 珊瑚橙 / Sand 沙色（沉浸式编辑叙事）。
+  令牌名沿用历史命名以避免改动组件：--clay 槽位承载 Coral 主色，
+  --teal 槽位承载 Ocean（回译卡），--paper 为 Sand 暖底。
 */
 
 :root {
-  /* paper & ink */
-  --paper: #f7f1e8;
-  --paper-raised: #fffaf2;
-  --paper-sunken: #efe6d7;
-  --ink: #2b2622;
-  --ink-soft: #6a6056;
-  --ink-faint: #978a7b;
-  --line: #e3d8c6;
-  --line-strong: #d4c5ad;
+  /* sand paper & ocean ink */
+  --paper: #f4ecdf;
+  --paper-raised: #fffdf8;
+  --paper-sunken: #ebe0cd;
+  --ink: #21383c;
+  --ink-soft: #52656a;
+  --ink-faint: #7a7b6f;
+  --line: #e4d9c6;
+  --line-strong: #cdbca3;
 
-  /* accents */
-  --clay: #c4603f; /* 主强调 — 陶土红 */
-  --clay-deep: #a64c30;
-  --clay-wash: #f4e3da;
-  --teal: #2f6f6a; /* 桥梁青 — 回译/确认 */
-  --teal-deep: #245752;
-  --teal-wash: #e0ece9;
-  --gold: #b8893a; /* 语气提示 */
+  /* accents — clay 槽位 = Coral 主色，teal 槽位 = Ocean 回译 */
+  --clay: #bd5526; /* Coral 珊瑚橙 — 主强调（取深以保证白字按钮/标签 AA 4.5+） */
+  --clay-deep: #a2461d;
+  --clay-wash: #f7e4d9;
+  --teal: #1f5963; /* Ocean 深海青 — 回译/确认 */
+  --teal-deep: #163f47;
+  --teal-wash: #dde9e9;
+  --gold: #94692a; /* 语气提示（AA 达标） */
 
   --danger: #b23b2e;
   --danger-wash: #f6e2de;
@@ -32,41 +33,42 @@
   --background: var(--paper);
   --foreground: var(--ink);
 
-  --shadow-soft: 0 1px 2px rgba(43, 38, 34, 0.05),
-    0 8px 24px -12px rgba(43, 38, 34, 0.18);
-  --shadow-raised: 0 2px 4px rgba(43, 38, 34, 0.06),
-    0 18px 40px -20px rgba(43, 38, 34, 0.28);
+  --shadow-soft: 0 1px 2px rgba(20, 40, 44, 0.05),
+    0 8px 24px -12px rgba(20, 40, 44, 0.18);
+  --shadow-raised: 0 2px 4px rgba(20, 40, 44, 0.06),
+    0 18px 40px -20px rgba(20, 40, 44, 0.28);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #1a1714;
-    --paper-raised: #221e1a;
-    --paper-sunken: #14110e;
-    --ink: #ede4d6;
-    --ink-soft: #b3a795;
-    --ink-faint: #847a6c;
-    --line: #322c25;
-    --line-strong: #423a31;
+    /* 深海青沉浸：Ocean 铺底，Coral 提亮，回译卡用更亮的青 + 亮描边保持醒目 */
+    --paper: #133a42;
+    --paper-raised: #18474f;
+    --paper-sunken: #0e2f36;
+    --ink: #f0ece1;
+    --ink-soft: #b4c2bf;
+    --ink-faint: #84948f;
+    --line: #20505a;
+    --line-strong: #2f626c;
 
-    --clay: #e08a64;
-    --clay-deep: #c4603f;
-    --clay-wash: #2e211b;
-    --teal: #6fb8b0;
-    --teal-deep: #4f9690;
-    --teal-wash: #16221f;
-    --gold: #d4a45a;
+    --clay: #f08350;
+    --clay-deep: #d2683a;
+    --clay-wash: #3a241a;
+    --teal: #6cc4b8;
+    --teal-deep: #8fd6cb;
+    --teal-wash: #18505a;
+    --gold: #d8a85e;
 
-    --danger: #e08070;
-    --danger-wash: #2c1a16;
+    --danger: #ef8a78;
+    --danger-wash: #3a1f1a;
 
     --background: var(--paper);
     --foreground: var(--ink);
 
     --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3),
-      0 10px 28px -14px rgba(0, 0, 0, 0.6);
+      0 10px 28px -14px rgba(0, 0, 0, 0.55);
     --shadow-raised: 0 2px 6px rgba(0, 0, 0, 0.35),
-      0 22px 48px -20px rgba(0, 0, 0, 0.7);
+      0 22px 48px -20px rgba(0, 0, 0, 0.65);
   }
 }
 
@@ -93,8 +95,9 @@
   --color-danger: var(--danger);
   --color-danger-wash: var(--danger-wash);
 
-  --font-sans: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-dm), var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-serif-sc), "Songti SC", serif;
+  --font-display: var(--font-news), Georgia, "Songti SC", serif;
 
   --radius-xl: 1.25rem;
   --radius-2xl: 1.5rem;
